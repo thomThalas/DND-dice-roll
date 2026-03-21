@@ -1,0 +1,37 @@
+{
+    "savingThrow":
+    [
+        {
+            "name": "Strength",
+            "bonus": 2
+        }
+    ],
+    "hit":
+    [
+        {
+            "name": "GreatAxe",
+            "bonus": 6
+        }
+    ],
+    "damage":
+    [
+        {
+            "name": "GreatAxe",
+            "bonus": 6,
+            "dice": [1,12]
+        }
+    ],
+    "custom":
+    [
+        {
+            "name": "funStuff",
+            "bonus": 2,
+            "dice": [1, 20]
+        }
+    ],
+    "settings":
+    {
+        "nat20Crit": true,
+        "doubleNat20Crit": true
+    }
+}

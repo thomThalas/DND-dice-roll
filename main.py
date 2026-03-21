@@ -1,4 +1,6 @@
 import customtkinter as ctk
+import json
+
 
 root = ctk.CTk()
 #root.resizable(False, False)
@@ -8,7 +10,7 @@ diceResultLabel = ctk.CTkLabel(root)
 diceResultLabel.place(relx=0.5, rely=0.5, anchor="center")
 
 typingDisplayFrame = ctk.CTkFrame(root)
-typingDisplayFrame.place(relx=0.5, rely=0.5)
-typingDisplayFrame.config()
+typingDisplayFrame.place(relx=0.5, rely=0.5, anchor="center")
+
 
 root.mainloop()
