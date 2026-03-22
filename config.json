@@ -3,14 +3,36 @@
     [
         {
             "name": "Strength",
-            "bonus": 2
+            "bonus": 8,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Dexterity",
+            "bonus": 2,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Constitution",
+            "bonus": 6,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Mahoraga",
+            "bonus": 1000000000000000,
+            "dice": [1, 100]
         }
     ],
     "hit":
     [
         {
             "name": "GreatAxe",
-            "bonus": 6
+            "bonus": 6,
+            "dice": [1, 20]
+        },
+        {
+            "name": "HandGun",
+            "bonus": 4,
+            "dice": [1, 20]
         }
     ],
     "damage":
@@ -19,19 +41,27 @@
             "name": "GreatAxe",
             "bonus": 6,
             "dice": [1,12]
+        },
+        {
+            "name": "HandGun",
+            "bonus": 2,
+            "dice": [1, 10]
         }
     ],
-    "custom":
-    [
+    "blabla":[
         {
-            "name": "funStuff",
-            "bonus": 2,
-            "dice": [1, 20]
+            "name": "abe",
+            "bonus": 1,
+            "dice": [1, 10]
         }
     ],
     "settings":
     {
-        "nat20Crit": true,
-        "doubleNat20Crit": true
+        "binds":[
+            "hit",
+            "damage",
+            "savingThrow",
+            "blabla"
+        ]
     }
 }
