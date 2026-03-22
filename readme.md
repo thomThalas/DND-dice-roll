@@ -39,7 +39,7 @@ The way you chosse the dice is by pressing out something like ``.10b2d10``. < th
   {
     binds:
     [
-      "\*your tab/category name\*",
+      "your tab/category name",
       ...,
       ...
     ],
