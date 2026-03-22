@@ -1,0 +1,181 @@
+{
+    "$schema": "./schema.json",
+    "savingThrow":
+    [
+        {
+            "name": "Strength",
+            "bonus": 8,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Dexterity",
+            "bonus": 2,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Constitution",
+            "bonus": 6,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Intelligence",
+            "bonus": 0,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Wisdom",
+            "bonus": 1,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Charisma",
+            "bonus": 2,
+            "dice": [1, 20]
+        }
+    ],
+    "hit":
+    [
+        {
+            "name": "GreatAxe",
+            "bonus": 8,
+            "dice": [1, 20]
+        },
+        {
+            "name": "HandGun",
+            "bonus": 4,
+            "dice": [1, 20]
+        }
+    ],
+    "damage":
+    [
+        {
+            "name": "GreatAxe",
+            "bonus": 6,
+            "dice": [1,12]
+        },
+        {
+            "name": "HandGun",
+            "bonus": 2,
+            "dice": [1, 10]
+        }
+    ],
+    "skill":[
+        {
+            "name": "Acrobatics",
+            "bonus": 4,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Animal Handeling",
+            "bonus": 1,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Arcana",
+            "bonus": 0,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Athletics",
+            "bonus": 8,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Deception",
+            "bonus": 2,
+            "dice": [1, 20]
+        },
+        {
+            "name": "History",
+            "bonus": 0,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Insight",
+            "bonus": 1,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Intimidation",
+            "bonus": 4,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Investigation",
+            "bonus": 0,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Medicine",
+            "bonus": 1,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Nature",
+            "bonus": 0,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Perception",
+            "bonus": 3,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Performance",
+            "bonus": 2,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Persuasion",
+            "bonus": 2,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Religion",
+            "bonus": 0,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Sleight of hand",
+            "bonus": 2,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Stealth",
+            "bonus": 2,
+            "dice": [1, 20]
+        },
+        {
+            "name": "Survival",
+            "bonus": 1,
+            "dice": [1, 20]
+        }
+    ],
+    "items":
+    [
+        {
+            "name": "bandages",
+            "bonus": 0,
+            "dice": [4, 4]
+        }
+    ],
+    "settings":
+    {
+        "binds":[
+            "hit",
+            "damage",
+            "savingThrow",
+            "skill",
+            "items"
+        ],
+        "animation": "RANDOM_NUMBERS",
+        "animationSpeed": 1.25,
+        "gui":
+        {
+            "currentDiceSizeMul": 1.5,
+            "diceResultSizeMul": 1.0,
+            "searchSizeMul": 1.2,
+            "tabsSizeMul": 1.0
+        }
+    }
+}

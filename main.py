@@ -63,7 +63,7 @@ class DiceRoller:
 
     def __init__(self, root: ctk.CTk):
         self.root = root
-        self.diceResultLabel = ctk.CTkLabel(root, font=ctk.CTkFont(size=30))
+        self.diceResultLabel = ctk.CTkLabel(root, font=ctk.CTkFont(size=int(30*settings["gui"]["diceResultSizeMul"])))
         self.diceResultLabel.place(relx=0.5, rely=0.5, anchor="center")
         self.diceResultLabel.configure(text="Please type your first dice throw :)")
         allKeyBinds.append(self.RollDiceKey)
@@ -148,7 +148,7 @@ class TabManager:
 
         for i, bind in enumerate(settings["binds"]):
             self.tabLabels.append(
-                ctk.CTkLabel(self.tabFrame, text=settings["binds"][i]+" ("+str(i+1)+")")
+                ctk.CTkLabel(self.tabFrame, text=settings["binds"][i]+" ("+str(i+1)+")", font=ctk.CTkFont(size=int(12*settings["gui"]["tabsSizeMul"])))
                 )
             
             self.tabLabels[-1].pack(side="left", fill="x", padx=25)
@@ -202,10 +202,10 @@ class SearchManager:
         self.typingDisplayFrame = ctk.CTkFrame(root)
         self.typingDisplayFrame.place(relx=-0.5, rely=0.5, anchor="center")
         self.frameColor = self.typingDisplayFrame._fg_color
-        self.currentSearchLabel = ctk.CTkLabel(self.typingDisplayFrame, font=ctk.CTkFont(size=80))
+        self.currentSearchLabel = ctk.CTkLabel(self.typingDisplayFrame, font=ctk.CTkFont(size=int(80*settings["gui"]["searchSizeMul"])))
         self.currentSearchLabel.pack()
 
-        self.searchedDiceConfigLabel = ctk.CTkLabel(root, text="", font=ctk.CTkFont(size=20))
+        self.searchedDiceConfigLabel = ctk.CTkLabel(root, text="", font=ctk.CTkFont(size=int(20*settings["gui"]["currentDiceSizeMul"])))
         self.searchedDiceConfigLabel.place(relx=0.5, rely=1, anchor="s")
 
         #self.typingDisplayFrame.configure(fg_color="transparent")

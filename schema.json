@@ -37,7 +37,7 @@
     "properties": {
         "settings":{
             "type": "object",
-            "required": ["binds", "animation", "animationSpeed"],
+            "required": ["binds", "animation", "animationSpeed", "gui"],
             "properties": {
                 "binds": {
                     "type":"array",
@@ -52,7 +52,33 @@
                 },
                 "animationSpeed":{
                     "type": "number",
-                    "default": 1.0
+                    "default": 1.25
+                },
+                "gui":{
+                    "type": "object",
+                    "required": ["diceResultSizeMul", "tabsSizeMul", "currentDiceSizeMul", "searchSizeMul"],
+                    "properties": {
+                        "diceResultSizeMul":
+                        {
+                            "type": "number",
+                            "default": 1
+                        },
+                        "tabsSizeMul":
+                        {
+                            "type": "number",
+                            "default": 1
+                        },
+                        "currentDiceSizeMul":
+                        {
+                            "type": "number",
+                            "default": 1
+                        },
+                        "searchSizeMul":
+                        {
+                            "type": "number",
+                            "default": 1
+                        }
+                    }
                 }
             },
             "additionalProperties": false
