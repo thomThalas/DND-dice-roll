@@ -29,7 +29,7 @@ The way you chosse the dice is by pressing out something like ``.10b2d10``. < th
     {
       name: "Dice throw name here",
       bonus: bonus as a number,
-      dice: a list with 2 values. [amount of dice rolled, dice number]
+      dice: a list with 2 values [amount of dice rolled, dice number]
     },
     ...,
     ...
@@ -44,7 +44,7 @@ The way you chosse the dice is by pressing out something like ``.10b2d10``. < th
       ...
     ],
     animation: "animation name" (QUICK, FADE_IN and RANDOM_NUMBERS),
-    animationSpeed: "animation speed"
+    animationSpeed: "animation speed" (decimal number)
   }
 }
 ```
