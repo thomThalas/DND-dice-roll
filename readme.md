@@ -24,7 +24,7 @@ The way you chosse the dice is by pressing out something like ``.10b2d10``. < th
 # Config
 ```
 {
-  "your tab/category name": <---- this is a list
+  "your tab/category name":
   [
     {
       name: "Dice throw name here",
@@ -43,7 +43,8 @@ The way you chosse the dice is by pressing out something like ``.10b2d10``. < th
       ...,
       ...
     ],
-    animation: "animation here" can be QUICK, FADE_IN and RANDOM_NUMBERS
+    animation: "animation name" (QUICK, FADE_IN and RANDOM_NUMBERS),
+    animationSpeed: "animation speed"
   }
 }
 ```
