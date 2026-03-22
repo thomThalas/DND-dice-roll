@@ -1,7 +1,8 @@
 import customtkinter as ctk
 import json
 import random
-
+from dataclasses import dataclass
+from enum import Enum
 
 
 root = ctk.CTk()
@@ -49,6 +50,9 @@ class DiceRoller:
     def RollDice(self, diceConfig):
         sum = 0
         for i in range(diceConfig["dice"][0]):
+            random.randint(1,diceConfig["dice"][1])
+            random.randint(1,diceConfig["dice"][1])
+            random.randint(1,diceConfig["dice"][1])
             sum += random.randint(1,diceConfig["dice"][1])
         sum += diceConfig["bonus"]
         self.diceResultLabel.configure(text=sum)
@@ -111,9 +115,14 @@ class TabManager:
         if event.keysym in NUMBERS and not searchManager.inSearch:
             self.SetCurrentSearchList(event.keysym)
         
-
+class SearchManagerState(Enum):
+    normal: int = 0
+    customDice: int = 1
+    additionalBonus: int = 2
 
 class SearchManager:
+    state = SearchManagerState.normal
+
     currentSearch: str = ""
     currentSearchLabel: ctk.CTkLabel
     inSearch: bool = False
@@ -142,9 +151,57 @@ class SearchManager:
         else:
             self.typingDisplayFrame.place(relx=-0.5)
             self.currentSearchLabel.configure(text="")
+            self.state = SearchManagerState.normal
         self.inSearch = state
         self.UpdateSearch()
+
     def UpdateSearch(self):
+        match self.state:
+            case SearchManagerState.normal:
+                self.NormalStateSearch()
+            case SearchManagerState.additionalBonus:
+                self.currentSearchLabel.configure(text_color="blue")
+                print("additionalBonus")
+            case SearchManagerState.customDice:                
+                self.CustomDiceSearch()
+                print("customDice")
+
+
+    def DirectionParse(self, startIndex, parsingText, endLetters, parseLeft = False, defaultValue: str = "0"):
+        result = ""
+        i = startIndex + (-1 if parseLeft else 1)
+        if i >= 0:
+            while i < len(parsingText) and parsingText[i] not in endLetters:
+                if parseLeft:
+                    result = parsingText[i] + result
+                else:
+                    result += parsingText[i]
+                
+                i += (-1 if parseLeft else 1)
+        if result == "":
+            result = defaultValue
+        return result
+
+    def CustomDiceSearch(self):
+        self.currentSearchLabel.configure(text_color="purple")
+        if self.currentSearch == ".":
+            return
+        try:
+            bonusText = self.DirectionParse(self.currentSearch.find("b"), self.currentSearch, ".", True, "0")
+            diceCountText = self.DirectionParse(self.currentSearch.find("d"), self.currentSearch, ".b", True, "1")
+            diceText = self.DirectionParse(self.currentSearch.find("d"), self.currentSearch, ".b", False, "4")
+            self.matchingListDiceConfigs = [{"name":"custom", "bonus":int(bonusText), "dice":[int(diceCountText), int(diceText)]}]
+        except:
+            print("incorrect syntax")
+            self.matchingListDiceConfigs = [{"name":"syntax error", "bonus":0, "dice":[1, 4]}]
+        
+        self.UpdateDiceConfigGraphic()
+
+        
+        
+        
+
+    def NormalStateSearch(self):
         if self.currentSearch == "":
             return
         searchList = config[settings["binds"][tabManager.currentSearchListIndex]]
@@ -158,13 +215,17 @@ class SearchManager:
             self.searchedDiceConfigLabel.configure(text="")
         else:
             self.currentSearchLabel.configure(text_color="green")
-            diceConfig = self.matchingListDiceConfigs[0]
-            text = ""
-            text += F"name: {diceConfig["name"]}\n"
-            text += F"bonus: {diceConfig["bonus"]}\n"
-            text += F"dice: {diceConfig["dice"][0]}d{diceConfig["dice"][1]}\n"
+            self.UpdateDiceConfigGraphic()
+            
 
-            self.searchedDiceConfigLabel.configure(text=text)
+    def UpdateDiceConfigGraphic(self):
+        diceConfig = self.matchingListDiceConfigs[0]
+        text = ""
+        text += F"name: {diceConfig["name"]}\n"
+        text += F"bonus: {diceConfig["bonus"]}\n"
+        text += F"dice: {diceConfig["dice"][0]}d{diceConfig["dice"][1]}\n"
+
+        self.searchedDiceConfigLabel.configure(text=text)
 
             
 
@@ -185,7 +246,7 @@ class SearchManager:
         self.currentSearch = ""
         self.SetFrameState(False)
     def KeyPress(self, event):
-        if event.keysym in ALL_LETTERS:
+        if (event.keysym in ALL_LETTERS and self.state != SearchManagerState.additionalBonus) or (self.state != SearchManagerState.normal and event.keysym in NUMBERS):
             if event.keysym == "space":
                 self.AddLetter(" ")
                 return
@@ -195,9 +256,14 @@ class SearchManager:
             self.ResetFrame()
         elif event.keysym == "BackSpace":
             self.RemoveLetter()
+        elif event.keysym == "period":
+            self.currentSearch = ""
+            self.state = SearchManagerState.customDice
+            #self.SetFrameState(True)
+            self.AddLetter(".")
         else:
-            pass
-            #print(event.keysym)
+            
+            print(event.keysym)
 
 
 
@@ -205,16 +271,6 @@ class SearchManager:
 diceRoller = DiceRoller(root)
 searchManager = SearchManager(root)
 tabManager = TabManager(root)
-
-
-
-
-
-
-
-
-
-
 
 
 root.mainloop()
