@@ -22,34 +22,29 @@ The way you chosse the dice is by pressing out something like ``.10b2d10``. < th
 * ``.`` will create a 1d4 dice roll. (Default if you put nothing)
 
 # Config
+```
+{
+  "your tab/category name":
+  [
+    {
+      name: "Dice throw name here",
+      bonus: bonus as a number,
+      dice: a list with 2 values [amount of dice rolled, dice number]
+    },
+    ...,
+    ...
+  ],
 
->\*your tab/category name\*: <---- this is a list
->>[
->>>{
->>>>name: "Dice throw name here"
->>>>
->>>>bonus: bonus in a number
->>>>
->>>>dice: a list with 2 values. [amount of dice rolled, dice type]
->>>>
->>> }
->>>
->> ]
->>
->settings:
->>{
->>>binds:
->>>[
->>>>"\*your tab/category name\*",
->>>>
->>>>...,
->>>>
->>>>...
->>>>
->>>>]
->>>>
->>>>animation: "animation here" can be QUICK, FADE_IN and RANDOM_NUMBERS
->>>>
->>>}
->>
->>}
+  settings:
+  {
+    binds:
+    [
+      "your tab/category name",
+      ...,
+      ...
+    ],
+    animation: "animation name" (QUICK, FADE_IN and RANDOM_NUMBERS),
+    animationSpeed: "animation speed" (decimal number)
+  }
+}
+```
