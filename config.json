@@ -36,7 +36,7 @@
     [
         {
             "name": "GreatAxe",
-            "bonus": 6,
+            "bonus": 8,
             "dice": [1, 20]
         },
         {
