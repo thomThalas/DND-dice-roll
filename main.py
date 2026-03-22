@@ -3,10 +3,10 @@ import json
 import random
 from dataclasses import dataclass
 from enum import Enum
+import math
 
 
 root = ctk.CTk()
-
 #root.resizable(False, False)
 root.geometry("800x800")
 
@@ -19,6 +19,8 @@ ALL_LETTERS = [
 
 
 NUMBERS = ["1","2","3","4","5","6","7","8","9","0"]
+
+RANDOM_TEXT = ["#", "/", "*", "^", "Å", "Æ", "Ø", "?"]
 
 config = {}
 
@@ -35,28 +37,93 @@ def KeyPressed(event):
 root.bind("<Key>", KeyPressed)
 
 
+def DirectionParse(startIndex, parsingText, endLetters, parseLeft = False, defaultValue: str = "0"):
+    result = ""
+    i = startIndex + (-1 if parseLeft else 1)
+    if i >= 0:
+        while i < len(parsingText) and parsingText[i] not in endLetters:
+            if parseLeft:
+                result = parsingText[i] + result
+            else:
+                result += parsingText[i]
+            
+            i += (-1 if parseLeft else 1)
+    if result == "":
+        result = defaultValue
+    return result
+
 
 class DiceRoller:
 
     diceResultLabel: ctk.CTkLabel
+    root: ctk.CTk
+
+    timeSinceAnimationStart: float = 0
+    targetFadeInText: str = ""
 
     def __init__(self, root: ctk.CTk):
-        print("weee")
+        self.root = root
         self.diceResultLabel = ctk.CTkLabel(root, font=ctk.CTkFont(size=30))
         self.diceResultLabel.place(relx=0.5, rely=0.5, anchor="center")
         self.diceResultLabel.configure(text="Please type your first dice throw :)")
         allKeyBinds.append(self.RollDiceKey)
 
+    def TextFadeInUpdateLoop(self):
+        self.timeSinceAnimationStart += 0.0025*len(self.targetFadeInText)*settings["animationSpeed"]
+        
+        text = self.targetFadeInText[:int(self.timeSinceAnimationStart)]
+        text += RANDOM_TEXT[random.randrange(0,len(RANDOM_TEXT))]
+
+        self.diceResultLabel.configure(text=text)
+
+        if self.timeSinceAnimationStart < len(self.targetFadeInText):
+            self.root.after(2, self.TextFadeInUpdateLoop)
+        else:
+            self.diceResultLabel.configure(text=self.targetFadeInText)
+    def TextRandomNumbersLoop(self):
+
+        numberIndicies = []
+        for i, c in enumerate(self.targetFadeInText):
+            if c in NUMBERS:
+                numberIndicies.append(i)
+        
+
+        self.timeSinceAnimationStart += 0.01*len(numberIndicies)*settings["animationSpeed"]
+        for i in range(0, int(self.timeSinceAnimationStart)):
+            numberIndicies.pop(0)
+        text = self.targetFadeInText
+        for i in numberIndicies:
+            text = text[:i] + NUMBERS[random.randrange(0,len(NUMBERS))] + text[i + 1:]
+        
+        self.diceResultLabel.configure(text=text)
+
+        if len(numberIndicies) != 0:
+            self.root.after(2, self.TextRandomNumbersLoop)
+
+
     def RollDice(self, diceConfig):
+        diceList = []
         sum = 0
         for i in range(diceConfig["dice"][0]):
-            random.randint(1,diceConfig["dice"][1])
-            random.randint(1,diceConfig["dice"][1])
-            random.randint(1,diceConfig["dice"][1])
-            sum += random.randint(1,diceConfig["dice"][1])
+            for i in range(random.randint(1,10)):
+                random.randint(1,diceConfig["dice"][1])
+            diceList.append(random.randint(1,diceConfig["dice"][1]))
+            sum += diceList[-1]
         sum += diceConfig["bonus"]
-        self.diceResultLabel.configure(text=sum)
-        print("rolled dice with config:\n"+diceConfig.__str__())
+        match settings["animation"]:
+            case "QUICK":
+                self.diceResultLabel.configure(text=F"{diceList}: {sum}")
+                print("rolled dice with config:\n"+diceConfig.__str__())
+            case "FADE_IN":
+                self.timeSinceAnimationStart = 0
+                self.targetFadeInText = F"{diceList}: {sum}"
+                self.TextFadeInUpdateLoop()
+            case "RANDOM_NUMBERS":
+                self.timeSinceAnimationStart = 0
+                self.targetFadeInText = F"{diceList}: {sum}"
+                self.TextRandomNumbersLoop()
+
+                    
     
     def RollDiceKey(self, event):
         if event.keysym == "Return":
@@ -164,32 +231,16 @@ class SearchManager:
                 print("additionalBonus")
             case SearchManagerState.customDice:                
                 self.CustomDiceSearch()
-                print("customDice")
 
 
-    def DirectionParse(self, startIndex, parsingText, endLetters, parseLeft = False, defaultValue: str = "0"):
-        result = ""
-        i = startIndex + (-1 if parseLeft else 1)
-        if i >= 0:
-            while i < len(parsingText) and parsingText[i] not in endLetters:
-                if parseLeft:
-                    result = parsingText[i] + result
-                else:
-                    result += parsingText[i]
-                
-                i += (-1 if parseLeft else 1)
-        if result == "":
-            result = defaultValue
-        return result
+    
 
     def CustomDiceSearch(self):
         self.currentSearchLabel.configure(text_color="purple")
-        if self.currentSearch == ".":
-            return
         try:
-            bonusText = self.DirectionParse(self.currentSearch.find("b"), self.currentSearch, ".", True, "0")
-            diceCountText = self.DirectionParse(self.currentSearch.find("d"), self.currentSearch, ".b", True, "1")
-            diceText = self.DirectionParse(self.currentSearch.find("d"), self.currentSearch, ".b", False, "4")
+            bonusText = DirectionParse(self.currentSearch.find("b"), self.currentSearch, ".db", True, "0")
+            diceCountText = DirectionParse(self.currentSearch.find("d"), self.currentSearch, ".db", True, "1")
+            diceText = DirectionParse(self.currentSearch.find("d"), self.currentSearch, ".db", False, "4")
             self.matchingListDiceConfigs = [{"name":"custom", "bonus":int(bonusText), "dice":[int(diceCountText), int(diceText)]}]
         except:
             print("incorrect syntax")
@@ -259,7 +310,6 @@ class SearchManager:
         elif event.keysym == "period":
             self.currentSearch = ""
             self.state = SearchManagerState.customDice
-            #self.SetFrameState(True)
             self.AddLetter(".")
         else:
             

@@ -1,0 +1,67 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "definitions": {
+        "rollObject": {
+            "type": "object",
+            "required": ["name", "bonus", "dice"],
+            "properties": {
+                "name":{
+                    "type": "string"
+                },
+                "bonus":{
+                    "type": "integer"
+                },
+                "dice":{
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    "minItems": 2,
+                    "maxItems": 2
+                }
+            },
+            "additionalItems": false
+        },
+        "rollArray":
+        {
+            "type": "array",
+            "items": 
+            {
+                "$ref": "#/definitions/rollObject"
+            }
+        }
+    },
+    "required": ["settings"],
+    "properties": {
+        "settings":{
+            "type": "object",
+            "required": ["binds", "animation", "animationSpeed"],
+            "properties": {
+                "binds": {
+                    "type":"array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "animation":{
+                    "type": "string",
+                    "enum": ["QUICK", "FADE_IN", "RANDOM_NUMBERS"],
+                    "default": "RANDOM_NUMBERS"
+                },
+                "animationSpeed":{
+                    "type": "number",
+                    "default": 1.0
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "patternProperties": {
+        "^(?!settings$).*": {
+            "$ref": "#/definitions/rollArray"
+        }
+    },
+    "additionalItems": false
+}

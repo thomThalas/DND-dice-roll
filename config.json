@@ -1,4 +1,5 @@
 {
+    "$schema": "./schema.json",
     "savingThrow":
     [
         {
@@ -58,7 +59,7 @@
             "dice": [1, 10]
         }
     ],
-    "roll for":[
+    "skill":[
         {
             "name": "Acrobatics",
             "bonus": 4,
@@ -155,7 +156,7 @@
         {
             "name": "bandages",
             "bonus": 0,
-            "dice": [4,4]
+            "dice": [4, 4]
         }
     ],
     "settings":
@@ -164,8 +165,10 @@
             "hit",
             "damage",
             "savingThrow",
-            "roll for",
+            "skill",
             "items"
-        ]
+        ],
+        "animation": "RANDOM_NUMBERS",
+        "animationSpeed": 1.25
     }
 }
