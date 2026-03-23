@@ -6,7 +6,8 @@ Why is this better and worse than other online dice rollers?
 
 # How to setup
 in the config.json you can change settings and dice setups.
-This app requires customtkiner, dataclasses and python-dotenv
+If you want to change where the config.json is stored then edit the .env file.
+This app requires the python libraries: customtkiner, dataclasses and python-dotenv
 # Keybinds
 ## Tabs
 '1-9' and '0' will change tabs/categories.
