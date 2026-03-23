@@ -1,44 +1,23 @@
 {
-    "$schema": "./schema.json",
-    "Example Tab/Category":
+    "$schema": "https://raw.githubusercontent.com/thomThalas/DND-dice-roll/ed644112be58f8093b4b4a988156dbe0fe807001/schema.json",
+    "Tab/Category name here":
     [
         {
-            "name": "Dexterity",
+            "name": "DICE ROLL NAME HERE",
             "bonus": 2,
             "dice": [1,20]
         },
         {
-            "name": "Strength",
-            "bonus": 5,
-            "dice": [1,20]
-        }
-    ],
-    "Tab2 example":[
-        {
-            "name": "FunTime",
-            "bonus": 8,
-            "dice": [5,10]
-        },
-        {
-            "name": "Polygons",
+            "name": "ANOTHER DICE ROLL NAME HERE",
             "bonus": 2,
-            "dice": [4,5]
+            "dice": [1,20]
         }
     ],
     "settings":
     {
         "binds":[
-            "Example Tab/Category",
-            "Tab2 example"
+            "Tab/Category name here"
         ],
-        "animation": "RANDOM_NUMBERS",
-        "animationSpeed": 1.25,
-        "gui":
-        {
-            "currentDiceSizeMul": 1.0,
-            "diceResultSizeMul": 1.0,
-            "searchSizeMul": 1.0,
-            "tabsSizeMul": 1.0
-        }
+        "animation": "RANDOM_NUMBERS"
     }
 }

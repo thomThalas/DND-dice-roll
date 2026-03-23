@@ -1,16 +1,17 @@
 import customtkinter as ctk
 import json
 import random
-from dataclasses import dataclass
 from enum import Enum
-import math
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 root = ctk.CTk()
 #root.resizable(False, False)
 root.geometry("800x800")
 
-
+CONFIG_PATH = os.getenv("CONFIG_PATH")
 
 ALL_LETTERS = [
     "a","b","c","d","e","f","g","h","i","j","k","l","m",
@@ -24,10 +25,29 @@ RANDOM_TEXT = ["#", "/", "*", "^", "Å", "Æ", "Ø", "?"]
 
 config = {}
 
-with open("./config.json", "r") as f:
+with open(CONFIG_PATH, "r") as f:
     config = json.loads(f.read())
 
+def CreateDefaultValue(parent: any, key: str, defaultValue: any):
+    parent[key] = parent[key] if key in parent else defaultValue
+
+
+#region SET VALUES TO THEIR DEFAULT IF NOT SET IN CONFIG
+for name in config["settings"]["binds"]:
+    for c in config[name]:
+        c["advantage"] = c["advantage"] if "advantage" in c else 0
+        c["bonus"] = c["bonus"] if "bonus" in c else 0
+        c["dice"] = c["dice"] if "dice" in c else [1,20]
+CreateDefaultValue(config["settings"], "animation", "RANDOM_NUMBERS")
+CreateDefaultValue(config["settings"], "animationSpeed", 1.25)
+CreateDefaultValue(config["settings"],"gui",{})
+CreateDefaultValue(config["settings"]["gui"], "currentDiceSizeMul", 1.0)
+CreateDefaultValue(config["settings"]["gui"], "diceResultSizeMul", 1.0)
+CreateDefaultValue(config["settings"]["gui"], "searchSizeMul", 1.0)
+CreateDefaultValue(config["settings"]["gui"], "tabsSizeMul", 1.0)
 settings = config["settings"]
+#endregion
+print(config)
 
 
 allKeyBinds: list = []
