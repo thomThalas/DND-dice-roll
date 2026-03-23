@@ -154,7 +154,7 @@ class DiceRoller:
                     return
                 self.RollDice(searchManager.matchingListDiceConfigs[0])
             else:
-                operationNumber = int(DirectionParse(0, searchManager.currentSearch, "+-*/", defaultValue=1))
+                operationNumber = int(DirectionParse(0, searchManager.currentSearch, "+-*/=", defaultValue=1))
                 match searchManager.currentSearch[0]:
                     case "+":
                         self.result += operationNumber
@@ -164,6 +164,8 @@ class DiceRoller:
                         self.result *= operationNumber
                     case "/":
                         self.result //= operationNumber
+                    case "=":
+                        self.result = operationNumber
                 self.StartAnimation()
 
 
@@ -345,7 +347,7 @@ class SearchManager:
             self.currentSearch = ""
             self.state = SearchManagerState.customDice
             self.AddLetter(".")
-        elif event.keysym == "plus" or event.keysym == "asterisk" or event.keysym == "slash" or event.keysym == "minus":
+        elif event.keysym == "plus" or event.keysym == "asterisk" or event.keysym == "slash" or event.keysym == "minus" or event.keysym == "equal":
             self.currentSearch = ""
             self.state = SearchManagerState.additionalBonus
             match event.keysym:
@@ -357,6 +359,8 @@ class SearchManager:
                     self.AddLetter("/")
                 case "minus":
                     self.AddLetter("-")
+                case "equal":
+                    self.AddLetter("=")
         else:
             print(event.keysym)
 

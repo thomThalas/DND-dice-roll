@@ -22,7 +22,7 @@ The way you chosse the dice is by pressing out something like ``.10b2d10``. < th
 * ``.5bd7`` will create a 1d7 dice roll with a bonus of 5.
 * ``.`` will create a 1d4 dice roll. (Default if you put nothing)
 ## Arithmetic
-Pressing one of these: "+-*/" will put you into arithmetic mode where you can do math operations in integer values. 
+Pressing one of these: "+-*/=" will put you into arithmetic mode where you can do math operations in integer values. 
 
 (DECIMAL POINTS ARE ROUNDED DOWN!!)
 
@@ -33,6 +33,8 @@ Pressing one of these: "+-*/" will put you into arithmetic mode where you can do
 \* multiplication
 
 / division
+
+= equals
 
 # Config
 ```
