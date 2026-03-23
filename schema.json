@@ -4,13 +4,14 @@
     "definitions": {
         "rollObject": {
             "type": "object",
-            "required": ["name", "bonus", "dice"],
+            "required": ["name"],
             "properties": {
                 "name":{
                     "type": "string"
                 },
                 "bonus":{
-                    "type": "integer"
+                    "type": "integer",
+                    "default": 0
                 },
                 "dice":{
                     "type": "array",
@@ -19,7 +20,13 @@
                         "minimum": 1
                     },
                     "minItems": 2,
-                    "maxItems": 2
+                    "maxItems": 2,
+                    "default": [1,20]
+                },
+                "advantage":
+                {
+                    "type": "integer",
+                    "default": 0
                 }
             },
             "additionalItems": false
@@ -37,13 +44,14 @@
     "properties": {
         "settings":{
             "type": "object",
-            "required": ["binds", "animation", "animationSpeed", "gui"],
+            "required": ["binds"],
             "properties": {
                 "binds": {
                     "type":"array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "minLength": 1
                 },
                 "animation":{
                     "type": "string",
@@ -56,7 +64,7 @@
                 },
                 "gui":{
                     "type": "object",
-                    "required": ["diceResultSizeMul", "tabsSizeMul", "currentDiceSizeMul", "searchSizeMul"],
+                    "required": [],
                     "properties": {
                         "diceResultSizeMul":
                         {
