@@ -4,6 +4,7 @@ import random
 from enum import Enum
 import os
 from dotenv import load_dotenv
+from copy import deepcopy
 
 load_dotenv()
 
@@ -76,7 +77,7 @@ def DirectionParse(startIndex, parsingText, endLetters, parseLeft = False, defau
 
 class DiceRoller:
 
-    diceList: list[int] = []
+    diceList: list[list[int]] = []
     result: int = 0
 
     diceResultLabel: ctk.CTkLabel
@@ -125,11 +126,15 @@ class DiceRoller:
             self.root.after(2, self.TextRandomNumbersLoop)
 
     def StartAnimation(self):
-        self.targetFadeInText = F"{self.diceList}: {self.result}"
+        self.targetFadeInText = ""
+        for diceThrows in self.diceList:
+            self.targetFadeInText += diceThrows.__str__() + "\n"
+        self.targetFadeInText += self.result.__str__()
+        #self.targetFadeInText = F"{self.diceList}: {self.result}"
         self.timeSinceAnimationStart = 0
         match settings["animation"]:
             case "QUICK":
-                self.diceResultLabel.configure(text=F"{self.diceList}: {self.result}")
+                self.diceResultLabel.configure(text=self.targetFadeInText)
             case "FADE_IN":
                 self.TextFadeInUpdateLoop()
             case "RANDOM_NUMBERS":
@@ -137,13 +142,21 @@ class DiceRoller:
 
     def RollDice(self, diceConfig):
         self.diceList = []
+        diceResults = []
         self.result = 0
-        for i in range(diceConfig["dice"][0]):
-            for i in range(random.randint(1,10)):
-                random.randint(1,diceConfig["dice"][1])
-            self.diceList.append(random.randint(1,diceConfig["dice"][1]))
-            self.result += self.diceList[-1]
-        self.result += diceConfig["bonus"]
+        for _ in range(abs(diceConfig["advantage"])+1):
+            self.diceList.append([])
+            diceResults.append(0)
+            for i in range(diceConfig["dice"][0]):
+                for i in range(random.randint(1,10)):
+                    random.randint(1,diceConfig["dice"][1])
+                self.diceList[-1].append(random.randint(1,diceConfig["dice"][1]))
+                diceResults[-1] += self.diceList[-1][-1]
+            diceResults[-1] += diceConfig["bonus"]
+        if diceConfig["advantage"] > 0:
+            self.result = max(diceResults)
+        else:
+            self.result = min(diceResults)
         self.StartAnimation()
         print("rolled dice with config:\n"+diceConfig.__str__())
 
@@ -278,10 +291,10 @@ class SearchManager:
             bonusText = DirectionParse(self.currentSearch.find("b"), self.currentSearch, ".db", True, "0")
             diceCountText = DirectionParse(self.currentSearch.find("d"), self.currentSearch, ".db", True, "1")
             diceText = DirectionParse(self.currentSearch.find("d"), self.currentSearch, ".db", False, "4")
-            self.matchingListDiceConfigs = [{"name":"custom", "bonus":int(bonusText), "dice":[int(diceCountText), int(diceText)]}]
+            self.matchingListDiceConfigs = [{"name":"custom", "bonus":int(bonusText), "dice":[int(diceCountText), int(diceText)], "advantage": 0}]
         except:
             print("incorrect syntax")
-            self.matchingListDiceConfigs = [{"name":"syntax error", "bonus":0, "dice":[1, 4]}]
+            self.matchingListDiceConfigs = [{"name":"syntax error", "bonus":0, "dice":[1, 4], "advantage": 0}]
         
         self.UpdateDiceConfigGraphic()
 
@@ -298,10 +311,10 @@ class SearchManager:
             match settings["searchType"]:
                 case "STRICT":
                     if self.currentSearch == diceConfig["name"][:len(self.currentSearch)].lower():
-                        self.matchingListDiceConfigs.append(diceConfig)
+                        self.matchingListDiceConfigs.append(deepcopy(diceConfig))
                 case "FLEXIBLE":
                     if self.currentSearch in (diceConfig["name"].lower()):
-                        self.matchingListDiceConfigs.append(diceConfig)
+                        self.matchingListDiceConfigs.append(deepcopy(diceConfig))
         print(self.matchingListDiceConfigs)
         if len(self.matchingListDiceConfigs) == 0:
             self.currentSearchLabel.configure(text_color="red")
@@ -315,9 +328,13 @@ class SearchManager:
         diceConfig = self.matchingListDiceConfigs[0]
         text = ""
         text += F"name: {diceConfig["name"]}\n"
-        text += F"bonus: {diceConfig["bonus"]}\n"
+        if diceConfig["bonus"] != 0:
+            text += F"bonus: {diceConfig["bonus"]}\n"
         text += F"dice: {diceConfig["dice"][0]}d{diceConfig["dice"][1]}\n"
-
+        if diceConfig["advantage"] > 0:
+            text += F"advantage: {diceConfig["advantage"]}\n"
+        elif diceConfig["advantage"] < 0:
+            text += F"disadvantage: {-diceConfig["advantage"]}\n"
         self.searchedDiceConfigLabel.configure(text=text)
 
             
@@ -367,6 +384,14 @@ class SearchManager:
                     self.AddLetter("-")
                 case "equal":
                     self.AddLetter("=")
+        elif event.keysym == "Right":
+            if len(self.matchingListDiceConfigs) == 0: return
+            self.matchingListDiceConfigs[0]["advantage"] += 1
+            self.UpdateDiceConfigGraphic()
+        elif event.keysym == "Left":
+            if len(self.matchingListDiceConfigs) == 0: return
+            self.matchingListDiceConfigs[0]["advantage"] -= 1
+            self.UpdateDiceConfigGraphic()
         else:
             print(event.keysym)
 

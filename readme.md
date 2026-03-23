@@ -14,6 +14,10 @@ This app requires the python libraries: customtkiner, dataclasses and python-dot
 After you have selected 
 ## Dice selection
 You simply type out the dice throw you want. Only in english alphabet
+## Advantage
+By pressing left or right arrows you can change advantage for your dice currently.
+
+There is also an option in the dice configs to have this set by default.
 ## Live custom dice
 pressing '.' will begin the custom dice roll where you can roll dice(es) on the fly without creating one in the config.
 The way you chosse the dice is by pressing out something like ``.10b2d10``. < this one will create a 2d10 dice roll with a bonus of 10.
@@ -66,7 +70,8 @@ Pressing one of these: "+-*/=" will put you into arithmetic mode where you can d
       "diceResultSizeMul": size multipier (decimal number),               default: 1.0
       "searchSizeMul": size multipier (decimal number),                   default: 1.0
       "tabsSizeMul": size multipier (decimal number)                      default: 1.0
-    }
+    },
+    "searchType": "search type name" (STRICT, FLEXIBLE)
   }
 }
 ```
