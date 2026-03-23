@@ -6,7 +6,7 @@ Why is this better and worse than other online dice rollers?
 
 # How to setup
 in the config.json you can change settings and dice setups.
-This app requires customtkiner and dataclasses
+This app requires customtkiner, dataclasses and python-dotenv
 # Keybinds
 ## Tabs
 '1-9' and '0' will change tabs/categories.
@@ -27,24 +27,31 @@ The way you chosse the dice is by pressing out something like ``.10b2d10``. < th
   "your tab/category name":
   [
     {
-      name: "Dice throw name here",
-      bonus: bonus as a number,
-      dice: a list with 2 values [amount of dice rolled, dice number]
+      "name": "Dice throw name here",
+      "bonus": bonus as a number,                                         default: 0
+      "dice": a list with 2 values [amount of dice rolled, dice number]   default: [1,20]
     },
     ...,
     ...
   ],
 
-  settings:
+  "settings":
   {
-    binds:
+    "binds":
     [
-      "your tab/category name",
+      "your tab/category names",
       ...,
       ...
     ],
-    animation: "animation name" (QUICK, FADE_IN and RANDOM_NUMBERS),
-    animationSpeed: "animation speed" (decimal number)
+    "animation": "animation name" (QUICK, FADE_IN and RANDOM_NUMBERS),    default: "RANDOM_NUMBERS"
+    "animationSpeed": animation speed (decimal number),                   default: 1.2
+    "gui":
+    {
+      "currentDiceSizeMul": size multipier (decimal number),              default: 1.0
+      "diceResultSizeMul": size multipier (decimal number),               default: 1.0
+      "searchSizeMul": size multipier (decimal number),                   default: 1.0
+      "tabsSizeMul": size multipier (decimal number)                      default: 1.0
+    }
   }
 }
 ```
