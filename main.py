@@ -40,6 +40,7 @@ for name in config["settings"]["binds"]:
         CreateDefaultValue(c, "dice", [1,20])
 CreateDefaultValue(config["settings"], "animation", "RANDOM_NUMBERS")
 CreateDefaultValue(config["settings"], "animationSpeed", 1.25)
+CreateDefaultValue(config["settings"], "searchType", "FLEXIBLE")
 CreateDefaultValue(config["settings"],"gui",{})
 CreateDefaultValue(config["settings"]["gui"], "currentDiceSizeMul", 1.0)
 CreateDefaultValue(config["settings"]["gui"], "diceResultSizeMul", 1.0)
@@ -294,8 +295,13 @@ class SearchManager:
         searchList = config[settings["binds"][tabManager.currentSearchListIndex]]
         self.matchingListDiceConfigs = []
         for i, diceConfig in enumerate(searchList):
-            if self.currentSearch == diceConfig["name"][:len(self.currentSearch)].lower():
-                self.matchingListDiceConfigs.append(diceConfig)
+            match settings["searchType"]:
+                case "STRICT":
+                    if self.currentSearch == diceConfig["name"][:len(self.currentSearch)].lower():
+                        self.matchingListDiceConfigs.append(diceConfig)
+                case "FLEXIBLE":
+                    if self.currentSearch in (diceConfig["name"].lower()):
+                        self.matchingListDiceConfigs.append(diceConfig)
         print(self.matchingListDiceConfigs)
         if len(self.matchingListDiceConfigs) == 0:
             self.currentSearchLabel.configure(text_color="red")

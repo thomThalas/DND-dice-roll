@@ -1,5 +1,5 @@
 {
-    "$schema": "https://raw.githubusercontent.com/thomThalas/DND-dice-roll/ed644112be58f8093b4b4a988156dbe0fe807001/schema.json",
+    "$schema": "https://raw.githubusercontent.com/thomThalas/DND-dice-roll/89b5f1bd6e1a9153426b09508392535ddda78c26/schema.json",
     "savingThrow":
     [
         {
@@ -149,7 +149,8 @@
             "currentDiceSizeMul": 1.5,
             "diceResultSizeMul": 1.0,
             "searchSizeMul": 1.2,
-            "tabsSizeMul": 1.0
-        }
+            "tabsSizeMul": 1
+        },
+        "searchType": "FLEXIBLE"
     }
 }
