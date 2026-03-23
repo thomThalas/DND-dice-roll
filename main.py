@@ -35,9 +35,9 @@ def CreateDefaultValue(parent: any, key: str, defaultValue: any):
 #region SET VALUES TO THEIR DEFAULT IF NOT SET IN CONFIG
 for name in config["settings"]["binds"]:
     for c in config[name]:
-        c["advantage"] = c["advantage"] if "advantage" in c else 0
-        c["bonus"] = c["bonus"] if "bonus" in c else 0
-        c["dice"] = c["dice"] if "dice" in c else [1,20]
+        CreateDefaultValue(c, "advantage", 0)
+        CreateDefaultValue(c, "bonus", 0)
+        CreateDefaultValue(c, "dice", [1,20])
 CreateDefaultValue(config["settings"], "animation", "RANDOM_NUMBERS")
 CreateDefaultValue(config["settings"], "animationSpeed", 1.25)
 CreateDefaultValue(config["settings"],"gui",{})
