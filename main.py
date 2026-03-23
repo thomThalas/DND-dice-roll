@@ -55,6 +55,9 @@ def DirectionParse(startIndex, parsingText, endLetters, parseLeft = False, defau
 
 class DiceRoller:
 
+    diceList: list[int] = []
+    result: int = 0
+
     diceResultLabel: ctk.CTkLabel
     root: ctk.CTk
 
@@ -100,36 +103,48 @@ class DiceRoller:
         if len(numberIndicies) != 0:
             self.root.after(2, self.TextRandomNumbersLoop)
 
+    def StartAnimation(self):
+        self.targetFadeInText = F"{self.diceList}: {self.result}"
+        self.timeSinceAnimationStart = 0
+        match settings["animation"]:
+            case "QUICK":
+                self.diceResultLabel.configure(text=F"{self.diceList}: {self.result}")
+            case "FADE_IN":
+                self.TextFadeInUpdateLoop()
+            case "RANDOM_NUMBERS":
+                self.TextRandomNumbersLoop()
 
     def RollDice(self, diceConfig):
-        diceList = []
-        sum = 0
+        self.diceList = []
+        self.result = 0
         for i in range(diceConfig["dice"][0]):
             for i in range(random.randint(1,10)):
                 random.randint(1,diceConfig["dice"][1])
-            diceList.append(random.randint(1,diceConfig["dice"][1]))
-            sum += diceList[-1]
-        sum += diceConfig["bonus"]
-        match settings["animation"]:
-            case "QUICK":
-                self.diceResultLabel.configure(text=F"{diceList}: {sum}")
-                print("rolled dice with config:\n"+diceConfig.__str__())
-            case "FADE_IN":
-                self.timeSinceAnimationStart = 0
-                self.targetFadeInText = F"{diceList}: {sum}"
-                self.TextFadeInUpdateLoop()
-            case "RANDOM_NUMBERS":
-                self.timeSinceAnimationStart = 0
-                self.targetFadeInText = F"{diceList}: {sum}"
-                self.TextRandomNumbersLoop()
+            self.diceList.append(random.randint(1,diceConfig["dice"][1]))
+            self.result += self.diceList[-1]
+        self.result += diceConfig["bonus"]
+        self.StartAnimation()
+        print("rolled dice with config:\n"+diceConfig.__str__())
 
-                    
     
     def RollDiceKey(self, event):
         if event.keysym == "Return":
-            if len(searchManager.matchingListDiceConfigs) == 0:
-                return
-            self.RollDice(searchManager.matchingListDiceConfigs[0])
+            if searchManager.state != SearchManagerState.additionalBonus:
+                if len(searchManager.matchingListDiceConfigs) == 0:
+                    return
+                self.RollDice(searchManager.matchingListDiceConfigs[0])
+            else:
+                operationNumber = int(DirectionParse(0, searchManager.currentSearch, "+-*/", defaultValue=1))
+                match searchManager.currentSearch[0]:
+                    case "+":
+                        self.result += operationNumber
+                    case "-":
+                        self.result -= operationNumber
+                    case "*":
+                        self.result *= operationNumber
+                    case "/":
+                        self.result //= operationNumber
+                self.StartAnimation()
 
 
 
@@ -228,7 +243,6 @@ class SearchManager:
                 self.NormalStateSearch()
             case SearchManagerState.additionalBonus:
                 self.currentSearchLabel.configure(text_color="blue")
-                print("additionalBonus")
             case SearchManagerState.customDice:                
                 self.CustomDiceSearch()
 
@@ -311,8 +325,19 @@ class SearchManager:
             self.currentSearch = ""
             self.state = SearchManagerState.customDice
             self.AddLetter(".")
+        elif event.keysym == "plus" or event.keysym == "asterisk" or event.keysym == "slash" or event.keysym == "minus":
+            self.currentSearch = ""
+            self.state = SearchManagerState.additionalBonus
+            match event.keysym:
+                case "plus":
+                    self.AddLetter("+")
+                case "asterisk":
+                    self.AddLetter("*")
+                case "slash":
+                    self.AddLetter("/")
+                case "minus":
+                    self.AddLetter("-")
         else:
-            
             print(event.keysym)
 
 
