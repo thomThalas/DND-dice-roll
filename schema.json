@@ -87,6 +87,11 @@
                             "default": 1
                         }
                     }
+                },
+                "searchType":{
+                    "type": "string",
+                    "enum": ["STRICT", "FLEXIBLE"],
+                    "default": "FLEXIBLE"
                 }
             },
             "additionalProperties": false
