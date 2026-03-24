@@ -40,15 +40,16 @@ Pressing one of these: "+-*/=" will put you into arithmetic mode where you can d
 
 = equals
 
-# Config
+# Config (when a value has a default that means that if you don't specify, it defaults to the default value.)
 ```
 {
   "your tab/category name":
   [
     {
       "name": "Dice throw name here",
-      "bonus": bonus as a number,                                         default: 0
-      "dice": a list with 2 values [amount of dice rolled, dice number]   default: [1,20]
+      "bonus": bonus as a number,                                                                             default: 0
+      "dice": a list with 2 values [amount of dice rolled, dice number]                                       default: [1,20],
+      "advantage": a number that defines advantage and disadvantage (negative number means disadvantage)      default: 0
     },
     ...,
     ...
@@ -62,14 +63,14 @@ Pressing one of these: "+-*/=" will put you into arithmetic mode where you can d
       ...,
       ...
     ],
-    "animation": "animation name" (QUICK, FADE_IN and RANDOM_NUMBERS),    default: "RANDOM_NUMBERS"
-    "animationSpeed": animation speed (decimal number),                   default: 1.2
+    "animation": "animation name" (QUICK, FADE_IN and RANDOM_NUMBERS),                                        default: "RANDOM_NUMBERS"
+    "animationSpeed": animation speed (decimal number),                                                       default: 1.2
     "gui":
     {
-      "currentDiceSizeMul": size multipier (decimal number),              default: 1.0
-      "diceResultSizeMul": size multipier (decimal number),               default: 1.0
-      "searchSizeMul": size multipier (decimal number),                   default: 1.0
-      "tabsSizeMul": size multipier (decimal number)                      default: 1.0
+      "currentDiceSizeMul": size multipier (decimal number),                                                  default: 1.0
+      "diceResultSizeMul": size multipier (decimal number),                                                   default: 1.0
+      "searchSizeMul": size multipier (decimal number),                                                       default: 1.0
+      "tabsSizeMul": size multipier (decimal number)                                                          default: 1.0
     },
     "searchType": "search type name" (STRICT, FLEXIBLE)
   }
