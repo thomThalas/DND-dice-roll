@@ -253,7 +253,7 @@ class SearchManager:
         self.typingDisplayFrame = ctk.CTkFrame(root)
         self.typingDisplayFrame.place(relx=-0.5, rely=0.5, anchor="center")
         self.frameColor = self.typingDisplayFrame._fg_color
-        self.currentSearchLabel = ctk.CTkLabel(self.typingDisplayFrame, font=ctk.CTkFont(size=int(80*settings["gui"]["searchSizeMul"])))
+        self.currentSearchLabel = ctk.CTkLabel(self.typingDisplayFrame, font=ctk.CTkFont(size=int(80*settings["gui"]["searchSizeMul"])), text="")
         self.currentSearchLabel.pack()
 
         self.searchedDiceConfigLabel = ctk.CTkLabel(root, text="", font=ctk.CTkFont(size=int(20*settings["gui"]["currentDiceSizeMul"])))
