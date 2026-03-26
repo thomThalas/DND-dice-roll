@@ -115,7 +115,8 @@ class DiceRoller:
 
         self.timeSinceAnimationStart += 0.01*len(numberIndicies)*settings["animationSpeed"]
         for i in range(0, int(self.timeSinceAnimationStart)):
-            numberIndicies.pop(0)
+            if len(numberIndicies) != 0:
+                numberIndicies.pop(0)
         text = self.targetFadeInText
         for i in numberIndicies:
             text = text[:i] + NUMBERS[random.randrange(0,len(NUMBERS))] + text[i + 1:]
