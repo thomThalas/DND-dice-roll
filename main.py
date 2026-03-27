@@ -59,7 +59,7 @@ def KeyPressed(event):
 root.bind("<Key>", KeyPressed)
 
 
-def DirectionParse(startIndex, parsingText, endLetters, parseLeft = False, defaultValue: str = "0"):
+def DirectionParse(startIndex, parsingText, endLetters, parseLeft = False, defaultValue: any = "0"):
     result = ""
     i = startIndex + (-1 if parseLeft else 1)
     if i >= 0:
