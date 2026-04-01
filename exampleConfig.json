@@ -1,136 +1,136 @@
 {
-    "$schema": "https://raw.githubusercontent.com/thomThalas/DND-dice-roll/89b5f1bd6e1a9153426b09508392535ddda78c26/schema.json",
+    "$schema": "./schema.json",
     "savingThrow":
     [
         {
             "name": "Strength",
-            "bonus": 8
+            "bonus": [8]
         },
         {
             "name": "Dexterity",
-            "bonus": 2
+            "bonus": [2]
         },
         {
             "name": "Constitution",
-            "bonus": 6
+            "bonus": [6]
         },
         {
             "name": "Intelligence",
-            "bonus": 0
+            "bonus": [0]
         },
         {
             "name": "Wisdom",
-            "bonus": 1
+            "bonus": [1]
         },
         {
             "name": "Charisma",
-            "bonus": 2
+            "bonus": [2]
         }
     ],
     "hit":
     [
         {
             "name": "GreatAxe",
-            "bonus": 8
+            "bonus": [8]
         },
         {
             "name": "HandGun",
-            "bonus": 4
+            "bonus": [4]
         }
     ],
     "damage":
     [
         {
             "name": "GreatAxe",
-            "bonus": 6,
-            "dice": [1,12]
+            "bonus": [6],
+            "dice": [[1,12]]
         },
         {
             "name": "HandGun",
-            "bonus": 2,
-            "dice": [1, 10]
+            "bonus": [2],
+            "dice": [[1, 10]]
         }
     ],
     "skill":[
         {
             "name": "Acrobatics",
-            "bonus": 4
+            "bonus": [4]
         },
         {
             "name": "Animal Handeling",
-            "bonus": 1
+            "bonus": [1]
         },
         {
             "name": "Arcana",
-            "bonus": 0
+            "bonus": [0]
         },
         {
             "name": "Athletics",
-            "bonus": 8
+            "bonus": [8]
         },
         {
             "name": "Deception",
-            "bonus": 2
+            "bonus": [2]
         },
         {
             "name": "History",
-            "bonus": 0
+            "bonus": [0]
         },
         {
             "name": "Insight",
-            "bonus": 1
+            "bonus": [1]
         },
         {
             "name": "Intimidation",
-            "bonus": 4
+            "bonus": [4]
         },
         {
             "name": "Investigation",
-            "bonus": 0
+            "bonus": [0]
         },
         {
             "name": "Medicine",
-            "bonus": 1
+            "bonus": [1]
         },
         {
             "name": "Nature",
-            "bonus": 0
+            "bonus": [0]
         },
         {
             "name": "Perception",
-            "bonus": 3
+            "bonus": [3]
         },
         {
             "name": "Performance",
-            "bonus": 2
+            "bonus": [2]
         },
         {
             "name": "Persuasion",
-            "bonus": 2
+            "bonus": [2]
         },
         {
             "name": "Religion",
-            "bonus": 0
+            "bonus": [0]
         },
         {
             "name": "Sleight of hand",
-            "bonus": 2
+            "bonus": [2]
         },
         {
             "name": "Stealth",
-            "bonus": 2
+            "bonus": [2]
         },
         {
             "name": "Survival",
-            "bonus": 1
+            "bonus": [1]
         }
     ],
     "items":
     [
         {
             "name": "bandages",
-            "bonus": 0,
-            "dice": [4, 4]
+            "bonus": [0],
+            "dice": [[4, 4]]
         }
     ],
     "settings":
