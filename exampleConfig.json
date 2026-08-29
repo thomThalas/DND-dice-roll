@@ -4,15 +4,15 @@
     [
         {
             "name": "Strength",
-            "bonus": [8]
+            "bonus": [9]
         },
         {
             "name": "Dexterity",
-            "bonus": [2]
+            "bonus": [3]
         },
         {
             "name": "Constitution",
-            "bonus": [6]
+            "bonus": [7]
         },
         {
             "name": "Intelligence",
@@ -31,7 +31,7 @@
     [
         {
             "name": "GreatAxe",
-            "bonus": [8]
+            "bonus": [9]
         },
         {
             "name": "HandGun",
@@ -54,7 +54,7 @@
     "skill":[
         {
             "name": "Acrobatics",
-            "bonus": [4]
+            "bonus": [6]
         },
         {
             "name": "Animal Handeling",
@@ -66,7 +66,7 @@
         },
         {
             "name": "Athletics",
-            "bonus": [8]
+            "bonus": [9]
         },
         {
             "name": "Deception",
@@ -82,7 +82,7 @@
         },
         {
             "name": "Intimidation",
-            "bonus": [4]
+            "bonus": [5]
         },
         {
             "name": "Investigation",
@@ -98,7 +98,7 @@
         },
         {
             "name": "Perception",
-            "bonus": [3]
+            "bonus": [4]
         },
         {
             "name": "Performance",
@@ -114,11 +114,11 @@
         },
         {
             "name": "Sleight of hand",
-            "bonus": [2]
+            "bonus": [3]
         },
         {
             "name": "Stealth",
-            "bonus": [2]
+            "bonus": [3]
         },
         {
             "name": "Survival",
