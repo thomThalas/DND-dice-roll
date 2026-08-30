@@ -35,7 +35,7 @@
         },
         {
             "name": "HandGun",
-            "bonus": [5]
+            "bonus": [3]
         }
     ],
     "damage":
