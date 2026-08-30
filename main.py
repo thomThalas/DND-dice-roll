@@ -9,6 +9,7 @@ import re
 from typing import Any
 
 
+
 load_dotenv()
 
 root = ctk.CTk()
@@ -242,7 +243,8 @@ class DiceRoller:
                     return
                 self.RollDice(searchManager.matchingListDiceConfigs[0])
             else:
-                operationNumber = int(DirectionParse(0, searchManager.currentSearch, "+-*/=", defaultValue=1))
+                startAnimation = True
+                operationNumber = int(DirectionParse(0, searchManager.currentSearch, "+-*/='", defaultValue=1))
                 match searchManager.currentSearch[0]:
                     case "+":
                         for i in range(len(self.result)):
@@ -258,7 +260,16 @@ class DiceRoller:
                             self.result[i] //= operationNumber
                     case "=":
                         self.result = [operationNumber]
-                self.StartAnimation()
+                    case "'":
+                        startAnimation = False    
+                        for i, _ in enumerate(searchManager.matchingListDiceConfigs[0]["bonus"]):
+                            searchManager.matchingListDiceConfigs[0]["bonus"][i] *= operationNumber
+                        for dice in searchManager.matchingListDiceConfigs[0]["dice"]:
+                            dice[0] *= operationNumber
+                        
+                        searchManager.UpdateDiceConfigGraphic()
+                if startAnimation:
+                    self.StartAnimation()
 
 
 
@@ -503,7 +514,7 @@ class SearchManager:
         elif event.keysym == "comma":
             if self.state == SearchManagerState.customDice:
                 self.AddLetter(",")
-        elif event.keysym == "plus" or event.keysym == "asterisk" or event.keysym == "slash" or event.keysym == "minus" or event.keysym == "equal":
+        elif event.keysym == "plus" or event.keysym == "asterisk" or event.keysym == "slash" or event.keysym == "minus" or event.keysym == "equal" or event.keysym == "apostrophe":
             self.currentSearch = ""
             self.state = SearchManagerState.additionalBonus
             match event.keysym:
@@ -517,6 +528,8 @@ class SearchManager:
                     self.AddLetter("-")
                 case "equal":
                     self.AddLetter("=")
+                case "apostrophe":
+                    self.AddLetter("'")
         elif event.keysym == "Right" or event.keysym == "Left":
             if len(self.matchingListDiceConfigs) == 0: return
             for i in range(len(self.matchingListDiceConfigs[0]["advantage"])):
@@ -526,16 +539,26 @@ class SearchManager:
             
             self.UpdateDiceConfigGraphic()
         elif event.keysym == "Up" and len(self.matchingListDiceConfigs) > 0 and len(self.matchingListDiceConfigs[0]["dice"]) > 0:
-            self.matchingListDiceConfigs[0]["bonus"].append(self.matchingListDiceConfigs[0]["bonus"][-1])
-            self.matchingListDiceConfigs[0]["advantage"].append(self.matchingListDiceConfigs[0]["advantage"][-1])
-            self.matchingListDiceConfigs[0]["dice"].append(self.matchingListDiceConfigs[0]["dice"][-1])
+            self.matchingListDiceConfigs[0]["bonus"].append(deepcopy(self.matchingListDiceConfigs[0]["bonus"][-1]))
+            self.matchingListDiceConfigs[0]["advantage"].append(deepcopy(self.matchingListDiceConfigs[0]["advantage"][-1]))
+            self.matchingListDiceConfigs[0]["dice"].append(deepcopy(self.matchingListDiceConfigs[0]["dice"][-1]))
             
             self.UpdateDiceConfigGraphic()
         elif event.keysym == "Down" and len(self.matchingListDiceConfigs) > 0 and len(self.matchingListDiceConfigs[0]["dice"]) > 1:
             self.matchingListDiceConfigs[0]["bonus"].pop()
             self.matchingListDiceConfigs[0]["advantage"].pop()
             self.matchingListDiceConfigs[0]["dice"].pop()
-            
+
+            self.UpdateDiceConfigGraphic()
+        elif event.keysym == "Home":
+            for dice in self.matchingListDiceConfigs[0]["dice"]:
+                dice[0] = max(dice[0] - 1, 1)
+
+            self.UpdateDiceConfigGraphic()
+        elif event.keysym == "End":
+            for dice in self.matchingListDiceConfigs[0]["dice"]:
+                dice[0] += 1
+
             self.UpdateDiceConfigGraphic()
         else:
             print(event.keysym)
