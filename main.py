@@ -189,6 +189,13 @@ class DiceRoller:
                 self.TextFadeInUpdateLoop()
             case "RANDOM_NUMBERS":
                 self.TextRandomNumbersLoop()
+
+    def StartSkipAnimation(self):
+        self.targetFadeInText = ""
+        for diceThrows in self.diceList:
+            self.targetFadeInText += diceThrows.__str__() + "\n"
+        self.targetFadeInText += self.result.__str__()
+        self.diceResultLabel.configure(text=self.targetFadeInText)
     
     
     def RollDice(self, diceConfig):
@@ -243,7 +250,6 @@ class DiceRoller:
                     return
                 self.RollDice(searchManager.matchingListDiceConfigs[0])
             else:
-                startAnimation = True
                 operationNumber = int(DirectionParse(0, searchManager.currentSearch, "+-*/='", defaultValue=1))
                 match searchManager.currentSearch[0]:
                     case "+":
@@ -261,15 +267,14 @@ class DiceRoller:
                     case "=":
                         self.result = [operationNumber]
                     case "'":
-                        startAnimation = False    
                         for i, _ in enumerate(searchManager.matchingListDiceConfigs[0]["bonus"]):
                             searchManager.matchingListDiceConfigs[0]["bonus"][i] *= operationNumber
                         for dice in searchManager.matchingListDiceConfigs[0]["dice"]:
                             dice[0] *= operationNumber
                         
                         searchManager.UpdateDiceConfigGraphic()
-                if startAnimation:
-                    self.StartAnimation()
+                
+                self.StartSkipAnimation()
 
 
 
