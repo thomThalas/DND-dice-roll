@@ -525,6 +525,18 @@ class SearchManager:
                 print(self.matchingListDiceConfigs[0]["advantage"][i])
             
             self.UpdateDiceConfigGraphic()
+        elif event.keysym == "Up" and len(self.matchingListDiceConfigs) > 0 and len(self.matchingListDiceConfigs[0]["dice"]) > 0:
+            self.matchingListDiceConfigs[0]["bonus"].append(self.matchingListDiceConfigs[0]["bonus"][-1])
+            self.matchingListDiceConfigs[0]["advantage"].append(self.matchingListDiceConfigs[0]["advantage"][-1])
+            self.matchingListDiceConfigs[0]["dice"].append(self.matchingListDiceConfigs[0]["dice"][-1])
+            
+            self.UpdateDiceConfigGraphic()
+        elif event.keysym == "Down" and len(self.matchingListDiceConfigs) > 0 and len(self.matchingListDiceConfigs[0]["dice"]) > 1:
+            self.matchingListDiceConfigs[0]["bonus"].pop()
+            self.matchingListDiceConfigs[0]["advantage"].pop()
+            self.matchingListDiceConfigs[0]["dice"].pop()
+            
+            self.UpdateDiceConfigGraphic()
         else:
             print(event.keysym)
 
