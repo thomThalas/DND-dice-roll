@@ -1,3 +1,5 @@
+# THIS READ ME IS OUT OF DATE!!!!
+
 # DND dice roller
 Dnd dice roller is an automatic dice roller that makes dice rolling super quick for those who want a fast way rolling dice in dnd and who may struggle with calculating everything in your head.
 
