@@ -6,6 +6,8 @@ import os
 from dotenv import load_dotenv
 from copy import deepcopy
 import re
+from typing import Any
+
 
 load_dotenv()
 
@@ -17,7 +19,14 @@ CONFIG_PATH = os.getenv("CONFIG_PATH")
 
 ALL_LETTERS = [
     "a","b","c","d","e","f","g","h","i","j","k","l","m",
-    "n","o","p","q","r","s","t","u","v","w","x","y","z","space"
+    "n","o","p","q","r","s","t","u","v","w","x","y","z", 
+    
+    "ae", "oslash", "aring", "Aring", "Oslash", "AE",
+    
+    "A","B","C","D","E","F","G","H","I","J","K","L","M",
+    "N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+
+    "space"
 ]
 
 
@@ -27,10 +36,20 @@ RANDOM_TEXT = ["#", "/", "*", "^", "Å", "Æ", "Ø", "?"]
 
 config = {}
 
-with open(CONFIG_PATH, "r") as f:
-    config = json.loads(f.read())
+def CreateConfigMessage(msg: str) -> Any:
+    global config
+    config = {"settings":{"binds":[msg]}, msg: []}
 
-def CreateDefaultValue(parent: any, key: str, defaultValue: any):
+if CONFIG_PATH != None:
+    try:
+        with open(CONFIG_PATH, "r") as f:
+            config = json.loads(f.read())
+    except:
+        CreateConfigMessage(F"FAILED TO LOAD {CONFIG_PATH} FILE")
+else:
+    CreateConfigMessage("FAILED TO LOAD .env FILE")
+
+def CreateDefaultValue(parent: Any, key: str, defaultValue: Any):
     parent[key] = parent[key] if key in parent else defaultValue
 
 def CreateDefaultDiceConfig(diceConfig):
@@ -79,7 +98,7 @@ def KeyPressed(event):
 root.bind("<Key>", KeyPressed)
 
 
-def DirectionParse(startIndex, parsingText, endLetters, parseLeft = False, defaultValue: any = "0"):
+def DirectionParse(startIndex, parsingText, endLetters, parseLeft = False, defaultValue: Any = "0"):
     result = ""
     if startIndex == -1:
         return defaultValue
@@ -107,7 +126,7 @@ class DiceRoller:
 
     # diceGroup, AdvantageRolls, Dice[2]
     diceList: list[list[list[int]]] = []
-    result: list[int] = 0
+    result: list[int] = [0]
 
     diceResultLabel: ctk.CTkLabel
     root: ctk.CTk
@@ -226,22 +245,26 @@ class DiceRoller:
                 operationNumber = int(DirectionParse(0, searchManager.currentSearch, "+-*/=", defaultValue=1))
                 match searchManager.currentSearch[0]:
                     case "+":
-                        self.result += operationNumber
+                        for i in range(len(self.result)):
+                            self.result[i] += operationNumber
                     case "-":
-                        self.result -= operationNumber
+                        for i in range(len(self.result)):
+                            self.result[i] -= operationNumber
                     case "*":
-                        self.result *= operationNumber
+                        for i in range(len(self.result)):
+                            self.result[i] *= operationNumber
                     case "/":
-                        self.result //= operationNumber
+                        for i in range(len(self.result)):
+                            self.result[i] //= operationNumber
                     case "=":
-                        self.result = operationNumber
+                        self.result = [operationNumber]
                 self.StartAnimation()
 
 
 
 class TabManager:
 
-    currentSearchList: any
+    currentSearchList: Any
     currentSearchListIndex: int
     tabFrame: ctk.CTkFrame
     tabLabels: list[ctk.CTkLabel] = []
@@ -265,7 +288,7 @@ class TabManager:
         allKeyBinds.append(self.SetCurrentSearchListKey)
         
 
-    def SetCurrentSearchList(self, letter: chr):
+    def SetCurrentSearchList(self, letter: str):
         number = int(letter)-1
         if number == -1:
             number = 9
@@ -289,9 +312,9 @@ class TabManager:
             self.SetCurrentSearchList(event.keysym)
         
 class SearchManagerState(Enum):
-    normal: int = 0
-    customDice: int = 1
-    additionalBonus: int = 2
+    normal = 0
+    customDice = 1
+    additionalBonus = 2
 
 class SearchManager:
     state = SearchManagerState.normal
@@ -433,7 +456,7 @@ class SearchManager:
             
 
 
-    def AddLetter(self, letter: chr):
+    def AddLetter(self, letter: str):
         self.currentSearch += letter
         self.SetFrameState(True)
         #self.typingDisplayFrame.configure(fg_color=self.frameColor)
@@ -453,7 +476,16 @@ class SearchManager:
             if event.keysym == "space":
                 self.AddLetter(" ")
                 return
-            self.AddLetter(event.keysym)
+            if event.keysym == "ae" or event.keysym == "AE":
+                self.AddLetter("æ")
+                return
+            if event.keysym == "oslash" or event.keysym == "Oslash":
+                self.AddLetter("ø")
+                return
+            if event.keysym == "aring" or event.keysym == "Aring":
+                self.AddLetter("å")
+                return
+            self.AddLetter(str.lower(event.keysym))
             #print(self.currentSearch)
         elif event.keysym == "Escape" or event.keysym == "Return":
             self.ResetFrame()
